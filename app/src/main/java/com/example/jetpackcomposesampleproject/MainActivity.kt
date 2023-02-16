@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.input.key.Key.Companion.I
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -30,9 +32,28 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposeSampleProjectTheme {
                 //RowAndColumn()
-                Boxes()
+                //Boxes()
+                Surface(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colors.background)) {
+                    TextCustomization()
+                }
+
             }
         }
+    }
+}
+
+@Composable
+fun TextCustomization(){
+    Column(modifier = Modifier.fillMaxSize()) {
+        Text(
+            modifier = Modifier
+                .background(color = MaterialTheme.colors.primary)
+                .padding(16.dp),
+            text = stringResource(id = R.string.app_name)
+        )
     }
 }
 
@@ -78,12 +99,14 @@ fun RowAndColumn() {
 @Composable
 fun Boxes() {
     Column(modifier = Modifier.fillMaxSize()) {
-        Box(modifier = Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center){
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f), contentAlignment = Alignment.Center){
             Box(modifier = Modifier
                 .width(300.dp)
                 .height(300.dp)
                 .background(
-                    color = Color.Blue,
+                    color = MaterialTheme.colors.secondaryVariant,
                     shape = Shapes.medium
                 )
                 .verticalScroll(rememberScrollState())
@@ -93,10 +116,12 @@ fun Boxes() {
                 )
             }
         }
-        Box(modifier = Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center){
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .weight(1f), contentAlignment = Alignment.Center){
             Box(modifier = Modifier
                 .background(
-                    color= Color.White,
+                    color= MaterialTheme.colors.background,
                     shape = Shapes.medium
                 )
             ){
@@ -122,13 +147,22 @@ fun ColumnScope.CustomItem(weight: Float,color: Color = MaterialTheme.colors.pri
     }
 }
 
+
 @Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    JetpackComposeSampleProjectTheme {
+        TextCustomization()
+    }
+}
+
+/*@Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     JetpackComposeSampleProjectTheme {
             Boxes()
     }
-}
+}*/
 
 /*
 @Preview(showBackground = true)
