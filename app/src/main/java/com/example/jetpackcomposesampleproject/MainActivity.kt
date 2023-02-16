@@ -17,9 +17,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.input.key.Key.Companion.I
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -50,6 +56,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TextCustomization(){
     Column(modifier = Modifier.fillMaxSize()) {
+        CustomText()
+        CustomText2()
+        CustomText3()
+    }
+
+}
+
+@Composable
+fun CustomText(){
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier
                 .background(color = MaterialTheme.colors.primary)
@@ -62,6 +78,38 @@ fun TextCustomization(){
             fontWeight = FontWeight.Black,
             textAlign = TextAlign.End
         )
+    }
+}
+
+@Composable
+fun CustomText2(){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            buildAnnotatedString {
+                withStyle(style = ParagraphStyle(textAlign = TextAlign.Center)) {
+
+
+                        withStyle(style = SpanStyle(
+                            fontStyle = FontStyle.Italic,
+                            fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold,
+                        )){
+                            append("P")
+                        }
+                    append("Smart")
+
+
+                }
+            }, modifier = Modifier.fillMaxWidth())
+    }
+}
+
+@Composable
+fun CustomText3(){
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            text = "Hello World".repeat(100), maxLines = 4, textAlign = TextAlign.Justify, overflow = TextOverflow.Ellipsis)
     }
 }
 
