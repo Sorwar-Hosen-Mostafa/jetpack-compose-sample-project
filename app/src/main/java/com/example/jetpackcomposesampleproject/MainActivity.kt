@@ -16,20 +16,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Cyan
-import androidx.compose.ui.input.key.Key.Companion.I
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposesampleproject.ui.theme.JetpackComposeSampleProjectTheme
@@ -41,20 +38,48 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeSampleProjectTheme {
-                //RowAndColumn()
-                //Boxes()
-                Surface(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(color = MaterialTheme.colors.background)
-                ) {
-                    TextCustomization()
-                }
-
+                run()
             }
         }
     }
 }
+
+@Composable
+fun run(){
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colors.background)
+    ) {
+        Column {
+            Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Superscript)
+            Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Subscript)
+        }
+
+        //RowAndColumn()
+        //Boxes()
+        //TextCustomization()
+    }
+}
+
+@Composable
+fun Script(normalText:String, superText:String, baselineShift: BaselineShift){
+    Text(buildAnnotatedString {
+        withStyle(style = SpanStyle(
+            fontSize = MaterialTheme.typography.subtitle1.fontSize,
+        )){
+            append(normalText)
+        }
+        withStyle(style = SpanStyle(
+            fontSize = MaterialTheme.typography.overline.fontSize,
+            fontWeight = FontWeight.Normal,
+            baselineShift = baselineShift
+        )){
+            append(superText)
+        }
+    })
+}
+
 
 @Composable
 fun TextCustomization() {
@@ -224,23 +249,7 @@ fun ColumnScope.CustomItem(weight: Float, color: Color = MaterialTheme.colors.pr
 @Composable
 fun DefaultPreview() {
     JetpackComposeSampleProjectTheme {
-        TextCustomization()
+       run()
     }
 }
 
-/*@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    JetpackComposeSampleProjectTheme {
-            Boxes()
-    }
-}*/
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun CustomPreview(){
-    JetpackComposeSampleProjectTheme {
-        RowAndColumn()
-    }
-}*/
