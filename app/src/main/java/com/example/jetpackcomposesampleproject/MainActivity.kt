@@ -17,7 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.input.key.Key.Companion.I
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -51,8 +53,14 @@ fun TextCustomization(){
         Text(
             modifier = Modifier
                 .background(color = MaterialTheme.colors.primary)
+                .fillMaxWidth()
                 .padding(16.dp),
-            text = stringResource(id = R.string.app_name)
+            text = stringResource(id = R.string.app_name),
+            fontSize = 16.sp,
+            color = MaterialTheme.colors.error,
+            fontStyle = FontStyle.Italic,
+            fontWeight = FontWeight.Black,
+            textAlign = TextAlign.End
         )
     }
 }
