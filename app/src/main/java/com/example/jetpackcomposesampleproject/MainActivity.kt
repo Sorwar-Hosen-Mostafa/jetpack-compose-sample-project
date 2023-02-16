@@ -51,14 +51,21 @@ fun run(){
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background)
     ) {
+
         Column {
+            ExpandableCard(title = "Lorem Ipsum", body = stringResource(id = R.string.lorem_ipsum))
+        }
+
+       /* Column {
             Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Superscript)
             Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Subscript)
-        }
+        }*/
 
         //RowAndColumn()
         //Boxes()
         //TextCustomization()
+
+
     }
 }
 
