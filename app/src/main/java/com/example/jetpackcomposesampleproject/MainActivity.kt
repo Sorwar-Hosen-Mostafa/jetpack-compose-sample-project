@@ -24,9 +24,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeSampleProjectTheme {
-                Column(modifier = Modifier.fillMaxSize()) {
+                Greeting(name = "hello")
 
-                }
             }
         }
     }
@@ -34,7 +33,41 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    Row (modifier = Modifier.fillMaxSize()){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CustomItem(1f,MaterialTheme.colors.secondary)
+            CustomItem(1f,MaterialTheme.colors.primary)
+            CustomItem(1f,MaterialTheme.colors.secondary)
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CustomItem(1f,MaterialTheme.colors.primary)
+            CustomItem(1f,MaterialTheme.colors.secondary)
+            CustomItem(1f,MaterialTheme.colors.primary)
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CustomItem(1f,MaterialTheme.colors.secondary)
+            CustomItem(1f,MaterialTheme.colors.primary)
+            CustomItem(1f,MaterialTheme.colors.secondary)
+        }
+    }
 }
 
 @Composable
@@ -50,7 +83,7 @@ fun ColumnScope.CustomItem(weight: Float,color: Color = MaterialTheme.colors.pri
     Surface(
         modifier = Modifier
             .weight(weight)
-            .width(100.dp),
+            .fillMaxWidth(),
         color = color) {
     }
 }
@@ -59,16 +92,6 @@ fun ColumnScope.CustomItem(weight: Float,color: Color = MaterialTheme.colors.pri
 @Composable
 fun DefaultPreview() {
     JetpackComposeSampleProjectTheme {
-        Row (modifier = Modifier.fillMaxSize()){
-            Column(
-                modifier = Modifier.fillMaxSize().weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                CustomItem(1f,MaterialTheme.colors.secondary)
-                CustomItem(1f,MaterialTheme.colors.primary)
-            }
-        }
-
+       Greeting(name = "hello")
     }
 }
