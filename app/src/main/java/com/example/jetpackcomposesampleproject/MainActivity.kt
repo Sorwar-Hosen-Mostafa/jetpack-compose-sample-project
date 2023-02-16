@@ -5,6 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,11 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.input.key.Key.Companion.I
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.jetpackcomposesampleproject.ui.theme.JetpackComposeSampleProjectTheme
+import com.example.jetpackcomposesampleproject.ui.theme.Shapes
 import com.example.jetpackcomposesampleproject.ui.theme.Typography
 
 class MainActivity : ComponentActivity() {
@@ -24,33 +29,95 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeSampleProjectTheme {
-                Column(modifier = Modifier.fillMaxSize()) {
-
-                }
+                //RowAndColumn()
+                Boxes()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun RowAndColumn() {
+    Row (modifier = Modifier.fillMaxSize()){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CustomItem(1f,MaterialTheme.colors.secondary)
+            CustomItem(1f,MaterialTheme.colors.primary)
+            CustomItem(1f,MaterialTheme.colors.secondary)
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CustomItem(1f,MaterialTheme.colors.primary)
+            CustomItem(1f,MaterialTheme.colors.secondary)
+            CustomItem(1f,MaterialTheme.colors.primary)
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly
+        ) {
+            CustomItem(1f,MaterialTheme.colors.secondary)
+            CustomItem(1f,MaterialTheme.colors.primary)
+            CustomItem(1f,MaterialTheme.colors.secondary)
+        }
+    }
 }
 
 @Composable
-fun CustomText(text: String){
-   Text(
-       text = "$text",
-       style = Typography.h1
-   )
+fun Boxes() {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center){
+            Box(modifier = Modifier
+                .width(300.dp)
+                .height(300.dp)
+                .background(
+                    color = Color.Blue,
+                    shape = Shapes.medium
+                )
+                .verticalScroll(rememberScrollState())
+            ){
+                Text(text = "Hello World, Whats up!!",
+                    style = Typography.h1
+                )
+            }
+        }
+        Box(modifier = Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center){
+            Box(modifier = Modifier
+                .background(
+                    color= Color.White,
+                    shape = Shapes.medium
+                )
+            ){
+                Text(text = "Hello World",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+
+
 }
+
 
 @Composable
 fun ColumnScope.CustomItem(weight: Float,color: Color = MaterialTheme.colors.primary){
     Surface(
         modifier = Modifier
             .weight(weight)
-            .width(100.dp),
+            .fillMaxWidth(),
         color = color) {
     }
 }
@@ -59,16 +126,15 @@ fun ColumnScope.CustomItem(weight: Float,color: Color = MaterialTheme.colors.pri
 @Composable
 fun DefaultPreview() {
     JetpackComposeSampleProjectTheme {
-        Row (modifier = Modifier.fillMaxSize()){
-            Column(
-                modifier = Modifier.fillMaxSize().weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                CustomItem(1f,MaterialTheme.colors.secondary)
-                CustomItem(1f,MaterialTheme.colors.primary)
-            }
-        }
-
+            Boxes()
     }
 }
+
+/*
+@Preview(showBackground = true)
+@Composable
+fun CustomPreview(){
+    JetpackComposeSampleProjectTheme {
+        RowAndColumn()
+    }
+}*/
