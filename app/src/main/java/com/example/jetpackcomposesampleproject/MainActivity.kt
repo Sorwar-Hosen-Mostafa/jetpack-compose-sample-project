@@ -157,6 +157,14 @@ fun CustomText3() {
             textAlign = TextAlign.Justify,
             overflow = TextOverflow.Ellipsis
         )
+
+        Text(
+            modifier = Modifier.verticalScroll(rememberScrollState()),
+            text = "Hello World".repeat(100),
+            maxLines = 4,
+            textAlign = TextAlign.Justify,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
