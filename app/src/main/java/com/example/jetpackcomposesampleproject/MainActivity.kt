@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
@@ -103,6 +104,14 @@ fun TextFieldSample() {
             },
             value = value,
             modifier = Modifier.fillMaxWidth(),
+            onValueChange = {
+                println("text")
+                value = it
+            })
+
+        BasicTextField(
+            value = value,
+            modifier = Modifier.fillMaxWidth().background(shape = Shapes.large, color = Color.LightGray).padding(20.dp),
             onValueChange = {
                 println("text")
                 value = it
