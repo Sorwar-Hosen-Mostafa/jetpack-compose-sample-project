@@ -1,18 +1,26 @@
 package com.example.jetpackcomposesampleproject
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.DisableSelection
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +30,8 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -34,6 +44,7 @@ import com.example.jetpackcomposesampleproject.ui.theme.Shapes
 import com.example.jetpackcomposesampleproject.ui.theme.Typography
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,21 +53,29 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    companion object {
+        private const val TAG = "MainActivity"
+    }
 }
 
 @Composable
-fun run(){
+fun run() {
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background)
     ) {
 
-        Column {
-            ExpandableCard(title = "Lorem Ipsum", body = stringResource(id = R.string.lorem_ipsum))
-        }
 
-       /* Column {
+        TextFieldSample()
+
+
+        /*Column {
+            ExpandableCard(title = "Lorem Ipsum", body = stringResource(id = R.string.lorem_ipsum))
+        }*/
+
+        /*Column {
             Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Superscript)
             Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Subscript)
         }*/
@@ -70,18 +89,133 @@ fun run(){
 }
 
 @Composable
-fun Script(normalText:String, superText:String, baselineShift: BaselineShift){
+fun TextFieldSample() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp), verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        var value by remember { mutableStateOf("Type anything here...") }
+        TextField(
+            label = {
+                Text(text = "this a label")
+            },
+            value = value,
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {
+                println("text")
+                value = it
+            })
+
+        TextField(
+            value = "this field is not enabled",
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {
+            })
+
+        TextField(
+            value = "This is read only, we cannot modify but can select and copy",
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {
+            })
+
+        var v1 by remember { mutableStateOf("Lerem ipsum, snd fjjskk ahgj ahdhg 9eihg dhhgks hghhgke ghhgks ghheighi sheh giehgh") }
+        TextField(
+            value = v1,
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(),
+            onValueChange = {
+                v1 = it
+            })
+
+
+        var v2 by remember { mutableStateOf("") }
+        TextField(
+            value = v2,
+            singleLine = true,
+            label = {
+                Text(text = "Email")
+            },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                IconButton(onClick = {
+                }) {
+                    Icon(imageVector = Icons.Filled.Email, contentDescription = "Email Icon")
+                }
+            },
+            trailingIcon = {
+                IconButton(onClick = {
+                }) {
+                    Icon(imageVector = Icons.Filled.Check, contentDescription = "Check Icon")
+                }
+            },
+            onValueChange = {
+                v2 = it
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = {
+                Log.e("Imei action","on search Clicked")
+
+            })
+
+
+        )
+
+        var v3 by remember { mutableStateOf("") }
+        OutlinedTextField(
+            value = v3,
+            singleLine = true,
+            label = {
+                Text(text = "Email")
+            },
+            modifier = Modifier.fillMaxWidth(),
+            leadingIcon = {
+                IconButton(onClick = {
+                }) {
+                    Icon(imageVector = Icons.Filled.Email, contentDescription = "Email Icon")
+                }
+            },
+            trailingIcon = {
+                IconButton(onClick = {
+                }) {
+                    Icon(imageVector = Icons.Filled.Check, contentDescription = "Check Icon")
+                }
+            },
+            onValueChange = {
+                v3 = it
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = {
+                Log.e("Imei action","on search Clicked")
+
+            })
+
+
+        )
+
+    }
+}
+
+@Composable
+fun Script(normalText: String, superText: String, baselineShift: BaselineShift) {
     Text(buildAnnotatedString {
-        withStyle(style = SpanStyle(
-            fontSize = MaterialTheme.typography.subtitle1.fontSize,
-        )){
+        withStyle(
+            style = SpanStyle(
+                fontSize = MaterialTheme.typography.subtitle1.fontSize,
+            )
+        ) {
             append(normalText)
         }
-        withStyle(style = SpanStyle(
-            fontSize = MaterialTheme.typography.overline.fontSize,
-            fontWeight = FontWeight.Normal,
-            baselineShift = baselineShift
-        )){
+        withStyle(
+            style = SpanStyle(
+                fontSize = MaterialTheme.typography.overline.fontSize,
+                fontWeight = FontWeight.Normal,
+                baselineShift = baselineShift
+            )
+        ) {
             append(superText)
         }
     })
@@ -150,14 +284,6 @@ fun CustomText2() {
 @Composable
 fun CustomText3() {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            modifier = Modifier.verticalScroll(rememberScrollState()),
-            text = "Hello World".repeat(100),
-            maxLines = 4,
-            textAlign = TextAlign.Justify,
-            overflow = TextOverflow.Ellipsis
-        )
-
         Text(
             modifier = Modifier.verticalScroll(rememberScrollState()),
             text = "Hello World".repeat(100),
@@ -264,7 +390,7 @@ fun ColumnScope.CustomItem(weight: Float, color: Color = MaterialTheme.colors.pr
 @Composable
 fun DefaultPreview() {
     JetpackComposeSampleProjectTheme {
-       run()
+        run()
     }
 }
 
