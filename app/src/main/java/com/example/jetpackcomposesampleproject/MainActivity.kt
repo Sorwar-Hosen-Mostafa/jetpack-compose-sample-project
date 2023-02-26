@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -22,7 +23,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
@@ -38,6 +41,14 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.ImagePainter
+import coil.compose.rememberImagePainter
+import coil.request.CachePolicy
+import coil.transform.BlurTransformation
+import coil.transform.CircleCropTransformation
+import coil.transform.GrayscaleTransformation
+import coil.transform.RoundedCornersTransformation
 import com.example.jetpackcomposesampleproject.ui.theme.JetpackComposeSampleProjectTheme
 import com.example.jetpackcomposesampleproject.ui.theme.Shapes
 import com.example.jetpackcomposesampleproject.ui.theme.Typography
@@ -59,6 +70,7 @@ class MainActivity : ComponentActivity() {
 }
 
 private const val TAG = "MainActivity"
+
 @Composable
 fun run() {
     Column(
@@ -70,45 +82,102 @@ fun run() {
     ) {
 
 
-        SocialLoginButton(
-            text = "Sign Up with Google",
-            icon = R.drawable.ic_google_icon,
-            textColor = Color.White,
-            shapes = Shapes.large,
-            backgroundColor = Color.DarkGray,
-            progressIndicatorColor = Color.White
-        ){
-            Log.e(TAG,"Creating google account....")
-        }
+        CoilImage()
 
-        Spacer(modifier = Modifier.height(16.dp))
 
-        SocialLoginButton(
-            text = "Sign Up with Facebook",
-            icon = R.drawable.ic_facebook,
-            progressIndicatorColor = MaterialTheme.colors.secondary
-        ){
-            Log.e(TAG,"Creating facebook account....")
-        }
-
+        // CustomButtons()
         // TextFieldSample()
-
-
         /*Column {
             ExpandableCard(title = "Lorem Ipsum", body = stringResource(id = R.string.lorem_ipsum))
         }*/
-
         /*Column {
             Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Superscript)
             Script(normalText = "Hello", superText = "World", baselineShift = BaselineShift.Subscript)
         }*/
-
         //RowAndColumn()
         //Boxes()
         //TextCustomization()
 
 
     }
+}
+
+@OptIn(ExperimentalCoilApi::class)
+@Composable
+fun CoilImage() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+
+            val painter = rememberImagePainter(
+                data = "https://wallpapersafari.com/downloadres/kbNDEm/desktop/1920/1080/",
+                builder = {
+                    placeholder(R.drawable.ic_placeholder)
+                    crossfade(500)
+                    transformations(
+                        GrayscaleTransformation(),
+                        RoundedCornersTransformation(100f)
+                    )
+                }
+            )
+            val painterState = painter.state
+            Image(painter = painter, contentDescription = null)
+
+            if (painterState is ImagePainter.State.Loading) {
+                CircularProgressIndicator()
+            }
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Box(contentAlignment = Alignment.Center) {
+
+            val painter = rememberImagePainter(
+                data = "https://wallpapersafari.com/downloadres/I09mLB/desktop/1920/1080/",
+                builder = {
+                    placeholder(R.drawable.ic_placeholder)
+                    crossfade(500)
+                    transformations(
+                        BlurTransformation(context = LocalContext.current),
+                        CircleCropTransformation()
+                    )
+                }
+            )
+            val painterState = painter.state
+            Image(painter = painter, contentDescription = null)
+
+            if (painterState is ImagePainter.State.Loading) {
+                CircularProgressIndicator()
+            }
+        }
+    }
+
+}
+
+@Composable
+fun CustomButtons() {
+    SocialLoginButton(
+        text = "Sign Up with Google",
+        icon = R.drawable.ic_google_icon,
+        textColor = Color.White,
+        shapes = Shapes.large,
+        backgroundColor = Color.DarkGray,
+        progressIndicatorColor = Color.White
+    ) {
+        Log.e(TAG, "Creating google account....")
+    }
+
+    Spacer(modifier = Modifier.height(16.dp))
+
+    SocialLoginButton(
+        text = "Sign Up with Facebook",
+        icon = R.drawable.ic_facebook,
+        progressIndicatorColor = MaterialTheme.colors.secondary
+    ) {
+        Log.e(TAG, "Creating facebook account....")
+    }
+
 }
 
 @Composable
