@@ -2,8 +2,6 @@ package com.example.jetpackcomposesampleproject
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -60,16 +58,40 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+private const val TAG = "MainActivity"
 @Composable
 fun run() {
-    Surface(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.background)
+            .background(color = MaterialTheme.colors.background),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
 
-        TextFieldSample()
+        SocialLoginButton(
+            text = "Sign Up with Google",
+            icon = R.drawable.ic_google_icon,
+            textColor = Color.White,
+            shapes = Shapes.large,
+            backgroundColor = Color.DarkGray,
+            progressIndicatorColor = Color.White
+        ){
+            Log.e(TAG,"Creating google account....")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        SocialLoginButton(
+            text = "Sign Up with Facebook",
+            icon = R.drawable.ic_facebook,
+            progressIndicatorColor = MaterialTheme.colors.secondary
+        ){
+            Log.e(TAG,"Creating facebook account....")
+        }
+
+        // TextFieldSample()
 
 
         /*Column {
@@ -111,7 +133,10 @@ fun TextFieldSample() {
 
         BasicTextField(
             value = value,
-            modifier = Modifier.fillMaxWidth().background(shape = Shapes.large, color = Color.LightGray).padding(20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(shape = Shapes.large, color = Color.LightGray)
+                .padding(20.dp),
             onValueChange = {
                 println("text")
                 value = it
@@ -164,9 +189,12 @@ fun TextFieldSample() {
             onValueChange = {
                 v2 = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Search),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Search
+            ),
             keyboardActions = KeyboardActions(onSearch = {
-                Log.e("Imei action","on search Clicked")
+                Log.e("Imei action", "on search Clicked")
 
             })
 
@@ -196,9 +224,12 @@ fun TextFieldSample() {
             onValueChange = {
                 v3 = it
             },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Search),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Search
+            ),
             keyboardActions = KeyboardActions(onSearch = {
-                Log.e("Imei action","on search Clicked")
+                Log.e("Imei action", "on search Clicked")
 
             })
 
